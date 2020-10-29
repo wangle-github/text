@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:action="@{/employee/doList}" method="post" id="selectForm">
+        员工姓名:<input type="text" name="name" th:value="${condition.name}"><br>
+
+        <input type="hidden" value="1" name="pageNum" id="pageNum">
+        <input type="submit" value="查询" >
+    </form>
+    <button id="s" th:onclick="'javascript:doAdd()'">添加</button>
+    <table border="1" cellspacing="0" cellpadding="0">
+        <tr>
+            <th width="100px">员工编号</th>
+            <th width="100px">员工姓名</th>
+            <th width="100px">员工性别</th>
+            <th width="100px">员工年龄</th>
+            <th width="100px">员工生日</th>
+            <th width="100px">员工工号</th>
+            <th width="100px">员工操作</th>
+        </tr>
+        <tr th:each="employee:${employee.getList()}">
+            <th th:text="${employee.id}"></th>
+            <th th:text="${employee.name}"></th>
+            <th th:text="${employee.sex}==1?'女':'男'"></th>
+            <th th:text="${employee.age}"></th>
+            <th th:text="${#dates.format(employee.birthday,'yyyy年MM月dd日')}"></th>
+            <th th:text="${employee.code}"></th>
+            <th >
+                <button th:onclick="'javascript:doUpdate('+${employee.id}+')'">修改</button>
+                <button th:onclick="'javascript:doDeleteById('+${employee.id}+')'">删除</button>
+            </th>
+        </tr>
+    </table>
+    <input type="button" value="首页" onclick="goPage(1)">
+    <input type="button" value="上一页" th:onclick="'goPage('+${employee.prePage}+')'">
+    <input type="button" value="下一页" th:onclick="'goPage('+${employee.nextPage}+')'">
+    <input type="button" value="尾页" th:onclick="'goPage('+${employee.pages}+')'">
+</body>
+<script>
+    function goPage(pageNum){
+        document.getElementById("pageNum").value=pageNum;
+        document.getElementById("selectForm").submit();
+    }
+    function doAdd(id){
+        location.href="doAdd";
+    }
+    function doUpdate(id){
+        location.href="doUpdate?id="+id;
+    }
+    function doDeleteById(id){
+        location.href="doDeleteById?id="+id;
+    }
+</script>
+</html>
