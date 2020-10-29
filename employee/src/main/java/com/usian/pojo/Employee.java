@@ -14,6 +14,8 @@ public class Employee {
     private Date birthday;
     private Integer sex;
     private Integer code;
+    private String starttime;
+    private String endtime;
 
     public Employee() {
     }
